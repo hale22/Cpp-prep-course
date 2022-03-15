@@ -27,7 +27,7 @@ int main(int argc, const char** argv) {
     if (argc < 3) {
         return ERR_ARGS_COUNT;
     }
-
+%d in format string (no. 1) requires 'int' but the argument type is 'size_t {aka unsigned long}'
     int Test_case = atoi(argv[1]);
     const char* data;
     data = argv[2];
@@ -36,7 +36,7 @@ int main(int argc, const char** argv) {
         case TST_FOO_FIX: {
             int to = atoi(data);
             size_t ticks_count = timer_from(to);
-            printf("%d\n", ticks_count);
+            printf("%u\n", ticks_count);
             break;
         }
         case TST_FOO_IMPL: {
