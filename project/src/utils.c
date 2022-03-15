@@ -1,4 +1,5 @@
 #include "utils.h"
+#include <stddef.h>
 
 size_t timer_from(unsigned char from) {
     size_t counter = 0;
@@ -13,5 +14,5 @@ size_t timer_from(unsigned char from) {
 /*
 int custom_pow(int base, int power) {
     return 0;
-}
+}git
 */

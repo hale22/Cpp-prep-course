@@ -1,4 +1,6 @@
 #include "utils.h"
+#include <stddef.h>
+#include <stdio.h>
 
 #define ERR_ARGS_COUNT (-1)
 #define ERR_WRONG_FLG (-2)
@@ -14,7 +16,7 @@
  * For safety program we recommend using `strtol` and its analogs.
  * (See `man atoi` and `man strtol` for more info).
  *
- * const char str_num[] = "1234";
+ * const char str_numm[] = "1234";
  * char* end = NULL;
  * int val = (int) strtol(str_num, &end, 0);
  * if (end != '\0') {
@@ -27,7 +29,6 @@ int main(int argc, const char** argv) {
     if (argc < 3) {
         return ERR_ARGS_COUNT;
     }
-%d in format string (no. 1) requires 'int' but the argument type is 'size_t {aka unsigned long}'
     int Test_case = atoi(argv[1]);
     const char* data;
     data = argv[2];
