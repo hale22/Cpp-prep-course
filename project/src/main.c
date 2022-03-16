@@ -11,6 +11,7 @@
 #define TST_MOD_IMPL    3
 
 
+
 /* NOTE(stitaevskiy):
  * We use `atoi` function just for simplification and code reducing.
  * This function doesn't report conversation errors.
