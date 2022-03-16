@@ -1,5 +1,6 @@
 #include "utils.h"
 #include <stddef.h>
+#include <stdio.h> 
 
 size_t timer_from(unsigned char from) {
     size_t counter = 0;
