@@ -56,7 +56,7 @@ int main(int argc, const char** argv) {
         case TST_MOD_IMPL: {
             // int num = atoi(data);
 
-            // TODO: Print to stdout `1` if `num` is prime number and `0` otherwise
+            // DO: Print to stdout `1` if `num` is prime number and `0` otherwise
             // This function MUST be implemented in
             // a separate C-module (not in `main` or `utils` module)
         }

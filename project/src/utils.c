@@ -12,7 +12,7 @@ size_t timer_from(unsigned char from) {
     return counter;
 }
 
-// TODO: Implement `power of` function
+// DO: Implement `power of` function
 /*
 int custom_pow(int base, int power) {
     return 0;
