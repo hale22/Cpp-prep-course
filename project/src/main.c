@@ -1,6 +1,7 @@
 #include "utils.h"
 #include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define ERR_ARGS_COUNT (-1)
 #define ERR_WRONG_FLG (-2)
