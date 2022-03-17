@@ -4,7 +4,7 @@
 #include <stddef.h>
 
 
-size_t timer_from(short int from);
+size_t timer_from(int from);
 // DO: Implement `power of` function
 // int custom_pow(int base, int power);
 
