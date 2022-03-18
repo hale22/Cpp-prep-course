@@ -5,8 +5,7 @@
 
 
 size_t timer_from(int from);
-// DO: Implement `power of` function
-// int custom_pow(int base, int power);
+int custom_pow(int base, int pow);
 
 #endif   //  PROJECT_INCLUDE_UTILS_H_
 
