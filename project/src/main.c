@@ -1,4 +1,5 @@
 #include "utils.h"
+#include "prime.h"
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -54,11 +55,10 @@ int main(int argc, const char** argv) {
             break;
         }
         case TST_MOD_IMPL: {
-            // int num = atoi(data);
-
-            // DO: Print to stdout `1` if `num` is prime number and `0` otherwise
-            // This function MUST be implemented in
-            // a separate C-module (not in `main` or `utils` module)
+            int num = atoi(data);
+            _Bool answer = prime(num);
+            printf("%d\n", answer);
+            break;
         }
         default: {
             return ERR_WRONG_FLG;
