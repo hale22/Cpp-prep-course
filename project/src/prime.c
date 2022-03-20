@@ -1,4 +1,5 @@
-#include <stddef.h>
+#include "prime.h"
+
 #define YES 1
 #define NO  0
 

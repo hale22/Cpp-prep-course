@@ -1,5 +1,6 @@
 #include "utils.h"
 #include "prime.h"
+#include "recursion.h"
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,6 +11,7 @@
 #define TST_FOO_FIX     1
 #define TST_FOO_IMPL    2
 #define TST_MOD_IMPL    3
+#define TST_MOD_REC     4
 
 
 
@@ -58,6 +60,11 @@ int main(int argc, const char** argv) {
             int num = atoi(data);
             _Bool answer = prime(num);
             printf("%d\n", answer);
+            break;
+        }
+        case TST_MOD_REC: {
+            int num = atoi(data);
+            recur(num);
             break;
         }
         default: {
