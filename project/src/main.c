@@ -18,21 +18,21 @@ int main(int argc, const char** argv) {
     if (argc < 3) {
         return ERR_ARGS_COUNT;
     }
-    int test_case = atoi(argv[1]);
+    int test_case = strtol(argv[1], NULL, 10);
     const char* data;
     data = argv[2];
 
     switch (test_case) {
         case TST_FOO_FIX: {
-            int to = atoi(data);
+            int to = strtol(data, NULL, 10);
             size_t ticks_count = timer_from(to);
             printf("%zu", ticks_count);
             break;
         }
         case TST_FOO_IMPL: {
             if (argc == 4) {
-                int base = atoi(data);
-                int pow =  atoi(argv[3]);
+                int base = strtol(data, NULL, 10);
+                int pow = strtol(argv[3], NULL, 10);
                 int res = custom_pow(base, pow);
                 printf("%i\n", res);
             } else {
@@ -41,13 +41,13 @@ int main(int argc, const char** argv) {
             break;
         }
         case TST_MOD_IMPL: {
-            int num = atoi(data);
+            int num = strtol(data, NULL, 10);
             _Bool answer = prime(num);
             printf("%d\n", answer);
             break;
         }
         case TST_MOD_REC: {
-            int num = atoi(data);
+            int num = strtol(data, NULL, 10);
             recur(num);
             break;
         }
