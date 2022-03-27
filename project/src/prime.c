@@ -5,10 +5,10 @@
 
 _Bool prime(int const num) {
     int counter = 0;
-    for (int i = num - 1; i > 1; --i) {
-        if (num % i != 0) ++counter;
+    for (int i = 2; (i*i) < num; ++i) {
+        if (num % i == 0) ++counter;
     }
-    if (counter == num - 2)
+    if ((counter == 0) && (num > 1))
         return YES;
     else
         return NO;
