@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-void recur(int num) {
+void recur(int const num) {
     if (num == 1) {
             printf("%d", num);
             return;
