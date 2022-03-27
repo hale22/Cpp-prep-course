@@ -1,7 +1,7 @@
 #include "utils.h"
+
 #include <stddef.h>
 #include <stdio.h>
-
 
 size_t timer_from(int from) {
     size_t counter = 0;
@@ -10,8 +10,6 @@ size_t timer_from(int from) {
     }
     return counter;
 }
-
-
 
 int custom_pow(int base, int pow) {
     if (base == 0 || base == 1) {
@@ -26,4 +24,3 @@ int custom_pow(int base, int pow) {
         return res;
     }
 }
-
