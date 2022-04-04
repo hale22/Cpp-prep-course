@@ -9,10 +9,6 @@
 #define ERR_EOL     (-1)
 #define ERR_ACCES   "Not access"
 
-#define PHONE_ARR_SIZE  15
-#define ADRES_ARR_SIZE  20
-#define NAME_ARR_SIZE   20
-
 #define ACT_ENT_CLIENT      1
 #define ACT_ENT_TRANS       2
 #define ACT_ENT_UPD_CLIENT  3
