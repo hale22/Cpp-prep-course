@@ -29,21 +29,21 @@ int main(void) {
         switch (choice) {
             case ACT_ENT_CLIENT: {
                 client_strm = fopen(F_NAME_ENT_CLIENT, "r+");
-                if (client_strm == NULL) {
-                    puts(ERR_ACCES);
-                } else {
+                if (client_strm != NULL) {
                     write_client_data(client_strm, client_data);
                     fclose(client_strm);
+                } else {
+                    puts(ERR_ACCES);
                 }
                 break;
             }
             case ACT_ENT_TRANS: {
                 transaction_strm = fopen(F_NAME_ENT_TRANS, "r+");
-                if (transaction_strm == NULL) {
-                    puts(ERR_ACCES);
-                } else {
+                if (transaction_strm != NULL) {
                     commit_transaction(transaction_strm, transfer_data);
                     fclose(transaction_strm);
+                } else {
+                    puts(ERR_ACCES);
                 }
                 break;
             }
@@ -51,13 +51,13 @@ int main(void) {
                 client_strm = fopen(F_NAME_ENT_CLIENT, "r");
                 transaction_strm = fopen(F_NAME_ENT_TRANS, "r");
                 upd_strm = fopen(F_NAME_UPD_CLIENT, "w");
-                if (client_strm == NULL || transaction_strm == NULL || upd_strm == NULL) {
-                    puts("exit");
-                } else {
+                if (client_strm != NULL && transaction_strm != NULL && upd_strm != NULL) {
                     update_credit_limit(client_strm, transaction_strm, upd_strm, client_data, transfer_data);
                     fclose(client_strm);
                     fclose(transaction_strm);
                     fclose(upd_strm);
+                } else {
+                    puts("exit");
                 }
                 break;
             }
