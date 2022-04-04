@@ -59,7 +59,7 @@ void write_client_data(FILE *client_stream, accounting_data_t client_data) {
     }
 }
 
-void commit_transaction(FILE *transaction_stream, transaction_data_t transfer_data) {
+void commit_transaction(FILE *transaction_stream, accounting_data_t transfer_data) {
     print_welcome_mes(ACT_ENT_TRANS);
     while (scanf("%d%lf", &transfer_data.account_id, &transfer_data.cash_payments) != ERR_EOL) {
         fprintf(transaction_stream, "%-3d%-6.2f\n", transfer_data.account_id, transfer_data.cash_payments);
@@ -67,7 +67,7 @@ void commit_transaction(FILE *transaction_stream, transaction_data_t transfer_da
 }
 
 void update_credit_limit(FILE *client_stream, FILE *transaction_stream, FILE *upd_client_stream,
-    accounting_data_t client_data, transaction_data_t transfer_data) {
+    accounting_data_t client_data, accounting_data_t transfer_data) {
     while (fscanf(client_stream, "%12d%11s%11s%16s%20s%lf%lf%lf",
         &client_data.account_id, client_data.name, client_data.surname,
         client_data.address, client_data.phone_number,

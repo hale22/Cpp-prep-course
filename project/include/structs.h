@@ -16,9 +16,4 @@ typedef struct accounting_data {
   double cash_payments;
 } accounting_data_t;
 
-typedef struct transaction_data {
-  int account_id;
-  double cash_payments;
-} transaction_data_t;
-
 #endif  // PROJECT_INCLUDE_STRUCTS_H_

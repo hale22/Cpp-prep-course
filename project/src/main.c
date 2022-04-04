@@ -24,7 +24,7 @@ int main(void) {
     FILE *transaction_strm = NULL;
     FILE *upd_strm = NULL;
     accounting_data_t client_data = {0};
-    transaction_data_t transfer_data = {0};
+    accounting_data_t transfer_data = {0};
     print_welcome_mes(INIT_MESSAGE);
     while (scanf("%d", &choice) != ERR_EOF) {
         switch (choice) {
