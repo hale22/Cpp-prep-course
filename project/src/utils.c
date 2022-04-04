@@ -8,8 +8,22 @@
 #define ERR_EOF     (-1)
 #define ERR_EOL     (-1)
 
-void write_client_data(FILE *client_stream, accounting_data_t client_data) {
-    printf("%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",
+#define INIT_MESSAGE        0
+#define ACT_ENT_CLIENT      1
+#define ACT_ENT_TRANS       2
+
+void print_welcome_mes(int mode) {
+    switch (mode) {
+    case INIT_MESSAGE: {
+        printf("%s\n%s\n%s\n%s\n",
+        "please enter action",
+        "1 enter data client:",
+        "2 enter data transaction:",
+        "3 update base");
+        break;
+    }
+    case ACT_ENT_CLIENT: {
+        printf("%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",
         "1 Number account: ",
         "2 Client name: ",
         "3 Surname: ",
@@ -18,6 +32,22 @@ void write_client_data(FILE *client_stream, accounting_data_t client_data) {
         "6 Client indebtedness: ",
         "7 Client credit limit: ",
         "8 Client cash payments:");
+        break;
+    }
+    case ACT_ENT_TRANS: {
+        printf("%s\n%s\n",
+        "1 Number account: ",
+        "2 Client cash payments: ");
+        break;
+    }
+    default:
+        printf("%s", "Incorrect welcome message flag");
+        break;
+    }
+}
+
+void write_client_data(FILE *client_stream, accounting_data_t client_data) {
+    print_welcome_mes(ACT_ENT_CLIENT);
     while (scanf("%12d%11s%11s%16s%20s%lf%lf%lf",
         &client_data.account_id, client_data.name, client_data.surname,
         client_data.address, client_data.phone_number,
@@ -30,9 +60,7 @@ void write_client_data(FILE *client_stream, accounting_data_t client_data) {
 }
 
 void commit_transaction(FILE *transaction_stream, transaction_data_t transfer_data) {
-    printf("%s\n%s\n",
-        "1 Number account: ",
-        "2 Client cash payments: ");
+    print_welcome_mes(ACT_ENT_TRANS);
     while (scanf("%d%lf", &transfer_data.account_id, &transfer_data.cash_payments) != ERR_EOL) {
         fprintf(transaction_stream, "%-3d%-6.2f\n", transfer_data.account_id, transfer_data.cash_payments);
     }

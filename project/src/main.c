@@ -9,6 +9,7 @@
 #define ERR_EOL     (-1)
 #define ERR_ACCES   "Not access"
 
+#define INIT_MESSAGE        0
 #define ACT_ENT_CLIENT      1
 #define ACT_ENT_TRANS       2
 #define ACT_ENT_UPD_CLIENT  3
@@ -24,7 +25,7 @@ int main(void) {
     FILE *upd_strm = NULL;
     accounting_data_t client_data = {0};
     transaction_data_t transfer_data = {0};
-    printf("%s", "please enter action\n1 enter data client:\n2 enter data transaction:\n3 update base\n");
+    print_welcome_mes(INIT_MESSAGE);
     while (scanf("%d", &choice) != ERR_EOF) {
         switch (choice) {
             case ACT_ENT_CLIENT: {
