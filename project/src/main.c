@@ -22,7 +22,6 @@
 #define F_NAME_UPD_CLIENT    "updated_clients.dat"
 
 int main(void) {
-    hello_world();
     int choice = 0;
     FILE *client_strm = NULL;
     FILE *transaction_strm = NULL;

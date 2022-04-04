@@ -57,7 +57,3 @@ void update_credit_limit(FILE *client_stream, FILE *transaction_stream, FILE *up
         rewind(transaction_stream);
     }
 }
-
-void hello_world(void) {
-    printf("%s", "Hello world");
-}
