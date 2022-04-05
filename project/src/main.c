@@ -4,11 +4,11 @@
 
 #include "structs.h"
 #include "utils.h"
+#include "welcome_mes_func.h"
 
-#define ERR_EOF     (-1)
-#define ERR_EOL     (-1)
-
-#define ERR_NULL_STREAM         "\nExcepted non-NULL stream"
+#define ERR_EOF             (-1)
+#define ERR_EOL             (-1)
+#define ERR_NULL_STREAM     1
 
 #define INIT_MESSAGE        0
 #define ACT_ENT_CLIENT      1
@@ -35,7 +35,7 @@ int main(void) {
                     write_client_data(client_strm, client_data);
                     fclose(client_strm);
                 } else {
-                    puts(ERR_NULL_STREAM);
+                    return ERR_NULL_STREAM;
                 }
                 break;
             }
@@ -45,7 +45,7 @@ int main(void) {
                     commit_transaction(transaction_strm, transfer_data);
                     fclose(transaction_strm);
                 } else {
-                    puts(ERR_NULL_STREAM);
+                    return ERR_NULL_STREAM;
                 }
                 break;
             }
@@ -59,7 +59,7 @@ int main(void) {
                     fclose(transaction_strm);
                     fclose(upd_strm);
                 } else {
-                    puts(ERR_NULL_STREAM);
+                    return ERR_NULL_STREAM;
                 }
                 break;
             }

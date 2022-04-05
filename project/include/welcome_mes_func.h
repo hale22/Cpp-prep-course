@@ -1,0 +1,6 @@
+#ifndef PROJECT_INCLUDE_WELCOME_MES_FUNC_H_
+#define PROJECT_INCLUDE_WELCOME_MES_FUNC_H_
+
+int print_welcome_mes(int mode);
+
+#endif  // PROJECT_INCLUDE_WELCOME_MES_FUNC_H_

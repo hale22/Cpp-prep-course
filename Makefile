@@ -3,7 +3,8 @@ HDRS_DIR = project/include/
 
 SRCS = \
        project/src/main.c \
-       project/src/utils.c
+       project/src/utils.c \
+	   project/src/welcome_mes_func.c
 
 .PHONY: all build rebuild check test memtest clean
 
