@@ -9,6 +9,7 @@ void write_client_data(FILE *client_stream, accounting_data_t client_data);
 void commit_transaction(FILE *transaction_stream, accounting_data_t transfer_data);
 void update_credit_limit(FILE *client_stream, FILE *transaction_stream, FILE *upd_client_stream,
     accounting_data_t client_data, accounting_data_t transfer_data);
-void print_welcome_mes(int mode);
+int print_welcome_mes(int mode);
+// int read_stream(FILE *stream, accounting_data_t accounting_data, int mode);
 
 #endif  // PROJECT_INCLUDE_UTILS_H_
