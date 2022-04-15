@@ -3,21 +3,23 @@
 #include <stdlib.h>
 
 #include "structs.h"
-#include "utils.h"
+#include "manage_functions.h"
 #include "welcome_mes_func.h"
+#include "write_read_stream.h"
 
 #define ERR_EOF             (-1)
 #define ERR_EOL             (-1)
 #define ERR_NULL_STREAM     1
+#define ERR_INC_MODE        2
 
 #define INIT_MESSAGE        0
 #define ACT_ENT_CLIENT      1
 #define ACT_ENT_TRANS       2
 #define ACT_ENT_UPD_CLIENT  3
 
-#define F_NAME_ENT_CLIENT    "clients.dat"
-#define F_NAME_ENT_TRANS     "transaction.dat"
-#define F_NAME_UPD_CLIENT    "updated_clients.dat"
+#define F_NAME_ENT_CLIENT   "clients.dat"
+#define F_NAME_ENT_TRANS    "transaction.dat"
+#define F_NAME_UPD_CLIENT   "updated_clients.dat"
 
 int main(void) {
     int choice = 0;
@@ -32,7 +34,7 @@ int main(void) {
             case ACT_ENT_CLIENT: {
                 client_strm = fopen(F_NAME_ENT_CLIENT, "r+");
                 if (client_strm != NULL) {
-                    write_client_data(client_strm, client_data);
+                    write_client_data(stdin, client_strm, client_data);
                     fclose(client_strm);
                 } else {
                     return ERR_NULL_STREAM;
@@ -42,7 +44,7 @@ int main(void) {
             case ACT_ENT_TRANS: {
                 transaction_strm = fopen(F_NAME_ENT_TRANS, "r+");
                 if (transaction_strm != NULL) {
-                    commit_transaction(transaction_strm, transfer_data);
+                    commit_transaction(stdin, transaction_strm, transfer_data);
                     fclose(transaction_strm);
                 } else {
                     return ERR_NULL_STREAM;
@@ -64,8 +66,7 @@ int main(void) {
                 break;
             }
             default: {
-                puts("error");
-                break;
+                return ERR_INC_MODE;
             }
         }
     }
