@@ -7,7 +7,6 @@
 #include "welcome_mes_func.h"
 #include "write_read_stream.h"
 
-#define ERR_EOF             (-1)
 #define ERR_EOL             (-1)
 #define ERR_NULL_STREAM     1
 #define ERR_INC_MODE        2
@@ -22,13 +21,13 @@
 #define F_NAME_UPD_CLIENT   "updated_clients.dat"
 
 int main(void) {
-    int choice = 0;
     FILE *client_strm = NULL;
     FILE *transaction_strm = NULL;
     FILE *upd_strm = NULL;
     accounting_data_t client_data = {0};
     accounting_data_t transfer_data = {0};
     print_welcome_mes(INIT_MESSAGE);
+    int choice = 0;
     while (scanf("%d", &choice) != ERR_EOL) {
         switch (choice) {
             case ACT_ENT_CLIENT: {

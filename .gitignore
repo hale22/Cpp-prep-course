@@ -75,3 +75,6 @@ local*
 .DS_Store
 venv
 *.log
+
+# Data
+*.dat
