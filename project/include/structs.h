@@ -1,10 +1,7 @@
 #ifndef PROJECT_INCLUDE_STRUCTS_H_
 #define PROJECT_INCLUDE_STRUCTS_H_
 
-#define PHONE_ARR_SIZE  15
-#define NAME_ARR_SIZE   20
-#define ADRES_ARR_SIZE  30
-
+enum arr_size {PHONE_ARR_SIZE = 15, NAME_ARR_SIZE = 20, ADRES_ARR_SIZE = 30};
 
 typedef struct accounting_data {
   int account_id;

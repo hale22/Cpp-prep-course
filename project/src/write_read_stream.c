@@ -1,32 +1,18 @@
 #include <stdio.h>
 
-#include "write_read_stream.h"
 #include "structs.h"
+#include "write_read_stream.h"
 
-#define ERR_INC_ENT_ARG_ONE     101
-#define ERR_INC_ENT_ARG_TWO     102
-#define ERR_INC_ENT_ARG_THR     103
-#define ERR_INC_ENT_ARG_FOUR    104
-#define ERR_INC_ENT_ARG_FIVE    105
-#define ERR_INC_ENT_ARG_SIX     106
-#define ERR_INC_ENT_ARG_SEV     107
-#define ERR_INC_ENT_ARG_EIT     108
-#define ERR_NULL_STREAM         201
-#define ERR_INC_MODE            202
+enum errors_code {ERR_INC_ENT_ARG_ONE = 101, ERR_INC_ENT_ARG_TWO,
+ERR_INC_ENT_ARG_THR, ERR_INC_ENT_ARG_FOUR, ERR_INC_ENT_ARG_FIVE,
+ERR_INC_ENT_ARG_SIX, ERR_INC_ENT_ARG_SEV, ERR_INC_ENT_ARG_EIT,
+ERR_NULL_STREAM = 201, ERR_INC_MODE};
 
-#define COR_ARGC_ID             12
-#define COR_ARGC_NAME           11
-#define COR_ARGC_SNAME          11
-#define COR_ARGC_ADR            16
-#define COR_ARGC_PHONE          20
-#define COR_ARGC_INDEB          12
-#define COR_ARGC_LIM            12
-#define COR_ARGC_CASH           13
-#define COR_ARGC_ID_ALT_TRANS   3
-#define COR_ARGC_CASH_TRANS     7
+enum correct_args_count {COR_ARGC_ID_ALT_TRANS = 3, COR_ARGC_CASH_TRANS = 7,
+COR_ARGC_NAME = 11, COR_ARGC_SNAME = 11, COR_ARGC_ID, COR_ARGC_INDEB = 12,
+COR_ARGC_LIM  = 12, COR_ARGC_CASH, COR_ARGC_ADR = 16, COR_ARGC_PHONE = 20};
 
-#define ACT_ENT_CLIENT  1
-#define ACT_ENT_TRANS   2
+enum mode_flags {ACT_ENT_CLIENT = 1, ACT_ENT_TRANS};
 
 int read_stream(FILE *stream, accounting_data_t *accounting_data, int mode) {
     if (stream != NULL) {

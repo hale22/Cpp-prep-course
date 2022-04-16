@@ -2,19 +2,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "structs.h"
 #include "manage_functions.h"
+#include "structs.h"
 #include "welcome_mes_func.h"
 #include "write_read_stream.h"
 
-#define ERR_EOL             (-1)
-#define ERR_NULL_STREAM     1
-#define ERR_INC_MODE        2
+enum errors_code {ERR_EOL = -1, ERR_NULL_STREAM = 1, ERR_INC_MODE};
 
-#define INIT_MESSAGE        0
-#define ACT_ENT_CLIENT      1
-#define ACT_ENT_TRANS       2
-#define ACT_ENT_UPD_CLIENT  3
+enum mode_flags {INIT_MESSAGE = 0, ACT_ENT_CLIENT, ACT_ENT_TRANS, ACT_ENT_UPD_CLIENT};
 
 #define F_NAME_ENT_CLIENT   "clients.dat"
 #define F_NAME_ENT_TRANS    "transaction.dat"

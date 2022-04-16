@@ -2,20 +2,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "structs.h"
 #include "manage_functions.h"
+#include "structs.h"
 #include "welcome_mes_func.h"
 #include "write_read_stream.h"
 
-#define ERR_TRY_TO_MAKE_INC_REC (-1)
+enum errors_code {ERR_TRY_TO_MAKE_INC_REC = -1, ERR_NULL_STREAM = 1};
 
-#define ACT_ENT_CLIENT  1
-#define ACT_ENT_TRANS   2
+enum mode_flags {ACT_ENT_CLIENT = 1, ACT_ENT_TRANS};
 
-#define COR_CLIENT_ARG_C    8
-#define COR_TRANS_ARG_C     2
+enum correct_args_count {COR_TRANS_ARG_C = 2, COR_CLIENT_ARG_C = 8};
 
 int write_client_data(FILE *input_stream, FILE *output_stream) {
+    if (input_stream == NULL || output_stream == NULL)
+        return ERR_NULL_STREAM;
     print_welcome_mes(ACT_ENT_CLIENT);
     accounting_data_t client_data = {0};
     while (read_stream(input_stream, &client_data, ACT_ENT_CLIENT) == COR_CLIENT_ARG_C) {
@@ -28,6 +28,8 @@ int write_client_data(FILE *input_stream, FILE *output_stream) {
 
 int commit_transaction(FILE *input_stream, FILE *output_stream) {
     print_welcome_mes(ACT_ENT_TRANS);
+    if (input_stream == NULL || output_stream == NULL)
+        return ERR_NULL_STREAM;
     accounting_data_t transfer_data = {0};
     while (read_stream(input_stream, &transfer_data, ACT_ENT_TRANS) == COR_TRANS_ARG_C) {
         if (write_stream(output_stream, transfer_data, ACT_ENT_TRANS) != COR_TRANS_ARG_C) {
@@ -38,6 +40,8 @@ int commit_transaction(FILE *input_stream, FILE *output_stream) {
 }
 
 int update_credit_limit(FILE *client_stream, FILE *transaction_stream, FILE *upd_client_stream) {
+    if ((client_stream == NULL) || (transaction_stream == NULL) || (upd_client_stream == NULL))
+        return ERR_NULL_STREAM;
     accounting_data_t client_data = {0};
     accounting_data_t transfer_data = {0};
     while (read_stream(client_stream, &client_data, ACT_ENT_CLIENT) == COR_CLIENT_ARG_C) {

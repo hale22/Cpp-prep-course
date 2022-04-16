@@ -5,9 +5,7 @@
 
 #define ERR_INC_WEL_MES_FLAG    (-1)
 
-#define INIT_MESSAGE        0
-#define ACT_ENT_CLIENT      1
-#define ACT_ENT_TRANS       2
+enum mode_flags {INIT_MESSAGE = 0, ACT_ENT_CLIENT, ACT_ENT_TRANS};
 
 #define WEL_MES_ENT_CLIENT "1 Number account: ", \
         "2 Client name: ", \
