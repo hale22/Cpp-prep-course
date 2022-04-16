@@ -15,8 +15,9 @@
 #define COR_CLIENT_ARG_C    8
 #define COR_TRANS_ARG_C     2
 
-int write_client_data(FILE *input_stream, FILE *output_stream, accounting_data_t client_data) {
+int write_client_data(FILE *input_stream, FILE *output_stream) {
     print_welcome_mes(ACT_ENT_CLIENT);
+    accounting_data_t client_data = {0};
     while (read_stream(input_stream, &client_data, ACT_ENT_CLIENT) == COR_CLIENT_ARG_C) {
         if (write_stream(output_stream, client_data, ACT_ENT_CLIENT) != COR_CLIENT_ARG_C) {
             return ERR_TRY_TO_MAKE_INC_REC;
@@ -25,8 +26,9 @@ int write_client_data(FILE *input_stream, FILE *output_stream, accounting_data_t
     return 0;
 }
 
-int commit_transaction(FILE *input_stream, FILE *output_stream, accounting_data_t transfer_data) {
+int commit_transaction(FILE *input_stream, FILE *output_stream) {
     print_welcome_mes(ACT_ENT_TRANS);
+    accounting_data_t transfer_data = {0};
     while (read_stream(input_stream, &transfer_data, ACT_ENT_TRANS) == COR_TRANS_ARG_C) {
         if (write_stream(output_stream, transfer_data, ACT_ENT_TRANS) != COR_TRANS_ARG_C) {
             return ERR_TRY_TO_MAKE_INC_REC;
@@ -35,8 +37,9 @@ int commit_transaction(FILE *input_stream, FILE *output_stream, accounting_data_
     return 0;
 }
 
-int update_credit_limit(FILE *client_stream, FILE *transaction_stream, FILE *upd_client_stream,
-    accounting_data_t client_data, accounting_data_t transfer_data) {
+int update_credit_limit(FILE *client_stream, FILE *transaction_stream, FILE *upd_client_stream) {
+    accounting_data_t client_data = {0};
+    accounting_data_t transfer_data = {0};
     while (read_stream(client_stream, &client_data, ACT_ENT_CLIENT) == COR_CLIENT_ARG_C) {
         while (read_stream(transaction_stream, &transfer_data, ACT_ENT_TRANS) == COR_TRANS_ARG_C) {
             if (client_data.account_id == transfer_data.account_id && transfer_data.cash_payments != 0) {
