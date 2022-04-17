@@ -62,12 +62,12 @@ int read_stream(FILE *stream, accounting_data_t *accounting_data, int mode) {
             return counter;
         }
         case ACT_ENT_TRANS: {
-            if (fscanf(stream, "%12d", &(accounting_data->account_id)) == 1) {
+            if (fscanf(stream, "%3d", &(accounting_data->account_id)) == 1) {
                 ++counter;
             } else {
                 return ERR_INC_ENT_ARG_ONE;
             }
-            if (fscanf(stream, "%12lf", &(accounting_data->cash_payments)) == 1) {
+            if (fscanf(stream, "%6lf", &(accounting_data->cash_payments)) == 1) {
                 ++counter;
             } else {
                 return ERR_INC_ENT_ARG_EIT;
