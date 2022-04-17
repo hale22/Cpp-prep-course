@@ -23,7 +23,7 @@ int test_write_to_file(void) {
 
     read_stream(test_strm, &got_client_data, ACT_ENT_CLIENT);
     fclose(test_strm);
-    
+
     int counter_of_client_data = 0;
     if (excepted_client_data.account_id == got_client_data.account_id) ++counter_of_client_data;
     if (strcmp(excepted_client_data.name, got_client_data.name) == 0) ++counter_of_client_data;
