@@ -8,9 +8,9 @@ class Matrix {
  public:
   explicit Matrix(size_t rows = 0, size_t cols = 0);
   explicit Matrix(std::istream& is);
-  Matrix(const Matrix& rhs) = default;
-  Matrix& operator=(const Matrix& rhs) = default;
-  ~Matrix() = default;
+  Matrix(const Matrix& rhs);
+  Matrix& operator=(const Matrix& rhs);
+  ~Matrix();
 
   size_t getRows() const;
   size_t getCols() const;
@@ -36,6 +36,16 @@ class Matrix {
   double det() const;
   Matrix adj() const;
   Matrix inv() const;
+
+ private:
+  size_t rows_;
+  size_t cols_;
+  double **matrix_ptr_;
+
+  bool CreateEmptyMatrix(size_t rows = 0, size_t cols = 0);
+  bool CopyMatrix(Matrix& prev_matrix, Matrix& new_matrix);
+  bool CompareDouble(double& first, double& second, int& precis);
+  
 };
 
 Matrix operator*(double val, const Matrix& matrix);
