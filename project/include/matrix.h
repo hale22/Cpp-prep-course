@@ -43,9 +43,8 @@ class Matrix {
   double **matrix_ptr_;
 
   bool CreateEmptyMatrix(size_t rows = 0, size_t cols = 0);
-  bool CopyMatrix(Matrix& prev_matrix, Matrix& new_matrix);
-  bool CompareDouble(double& first, double& second, int& precis);
-  
+  bool CopyMatrix(const Matrix& prev_matrix);
+  // bool CompareDouble(double& first, double& second, int& precis);
 };
 
 Matrix operator*(double val, const Matrix& matrix);
