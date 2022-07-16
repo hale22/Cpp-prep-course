@@ -1,7 +1,11 @@
 #pragma once // NOLINT
 
+
+#include <limits>
 #include <vector>
 #include <istream>
+
+#define CONST_COMPARE_PRECISION 7
 
 namespace prep {
 class Matrix {
@@ -44,8 +48,9 @@ class Matrix {
 
   bool CreateEmptyMatrix(size_t rows = 0, size_t cols = 0);
   bool CopyMatrix(const Matrix& prev_matrix);
-  // bool CompareDouble(double& first, double& second, int& precis);
 };
+
+bool CompareDouble(const double first, const double second, const int precis = CONST_COMPARE_PRECISION);
 
 Matrix operator*(double val, const Matrix& matrix);
 std::ostream& operator<<(std::ostream& os, const Matrix& matrix);
