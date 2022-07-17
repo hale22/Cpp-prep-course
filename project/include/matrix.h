@@ -48,6 +48,8 @@ class Matrix {
 
   bool CreateEmptyMatrix(size_t rows = 0, size_t cols = 0);
   bool CopyMatrix(const Matrix& prev_matrix);
+  Matrix AssembleMinor(size_t k, size_t l) const;
+  double CalcCofactor(size_t i, size_t j) const;
 };
 
 bool CompareDouble(const double first, const double second, const int precis = CONST_COMPARE_PRECISION);

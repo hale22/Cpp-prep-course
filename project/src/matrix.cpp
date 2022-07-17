@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "matrix.h"
 #include "exceptions.h"
 
@@ -16,9 +18,6 @@ Matrix::Matrix(std::istream& is): rows_(0), cols_(0), matrix_ptr_(NULL) {
     for (size_t j = 0; j < cols_; j++)
       is >> matrix_ptr_[i][j];
   }
-
-  if (!is.eof())
-    InvalidMatrixStream invalid_matrix_stream;
 }
 
 Matrix::Matrix(const Matrix& rhs): rows_(rhs.rows_), cols_(rhs.cols_), matrix_ptr_(NULL) {
@@ -35,6 +34,8 @@ Matrix& Matrix::operator=(const Matrix& rhs) {
   rows_ = rhs.rows_;
   // приравнивать ли матрицы разных размеров(с приведением типа прирав-моей матрицы к rhs матрице) ??
   cols_ =  rhs.cols_;
+  
+  CreateEmptyMatrix(rows_, cols_);
   CopyMatrix(rhs);
   return *this;
 }
@@ -147,6 +148,62 @@ std::ostream& operator<<(std::ostream& os, const Matrix& matrix) {
   return os;
 }
 
+Matrix Matrix::transp() const {
+  Matrix temp_matrix(cols_, rows_);
+  for (size_t i = 0; i < temp_matrix.rows_; i++) {
+    for (size_t j = 0; j < temp_matrix.cols_; j++)
+      temp_matrix.matrix_ptr_[i][j] = matrix_ptr_[j][i];
+  }
+
+  return temp_matrix;
+}
+
+double Matrix::det() const {
+  if (rows_ != cols_) {
+    DimensionMismatch *dimension_mismatch = new DimensionMismatch(*this);
+    delete dimension_mismatch;
+  }
+
+  //todo: функция для оптимального выбора строки, по которой выч-ть опре-ль
+  // те строка с самым большим числом нулей
+
+  double deter = 0;
+  for (size_t i = 0; i < cols_; i++) {
+    if (rows_ == 1)
+      return matrix_ptr_[1][i];
+    else {
+      deter+= matrix_ptr_[1][i] * CalcCofactor(1, i);
+    }
+  }
+  return deter;
+}
+
+Matrix Matrix::adj() const {
+  if (rows_ != cols_) {
+    DimensionMismatch *dimension_mismatch = new DimensionMismatch(*this);
+    delete dimension_mismatch;
+  }
+  
+  Matrix temp_matrix(rows_, cols_);
+  for (size_t i = 0; i < temp_matrix.rows_; i++) {
+    for (size_t j = 0; j < temp_matrix.cols_; j++)
+      temp_matrix.matrix_ptr_[i][j] = CalcCofactor(i, j);
+  }
+  return temp_matrix.transp();
+}
+
+Matrix Matrix::inv() const {
+  if (rows_ != cols_) {
+    DimensionMismatch *dimension_mismatch = new DimensionMismatch(*this);
+    delete dimension_mismatch;
+  }
+  double deter = det();
+  if (deter == 0) {
+    SingularMatrix sing_matr;
+  }
+  return adj()*(1/det());
+}
+
 bool Matrix::CreateEmptyMatrix(size_t rows, size_t cols) {
   // надо ли иниц-ть элементы матрицы нулями?
   matrix_ptr_ = new double* [rows];
@@ -169,6 +226,31 @@ bool CompareDouble(const double first, const double second, const int precis) {
   if (std::abs(first - second) >= (precis*std::numeric_limits<double>::epsilon()))
     return false;
   return true;
+}
+
+Matrix Matrix::AssembleMinor(size_t k, size_t l) const {
+  Matrix temp_matrix(rows_ - 1, cols_ - 1);
+  size_t m = 0;
+  size_t n = 0;
+  for (size_t i = 0; i < rows_; i++) {
+    for (size_t j = 0; j < cols_; j++) {
+      if (i != k && j != l) {
+        temp_matrix.matrix_ptr_[m][n] = matrix_ptr_[i][j];
+        if (n == temp_matrix.cols_) {
+          if (m == temp_matrix.rows_)
+            break;
+          n = 0;
+          m++;
+        }
+      }
+    }
+  }
+  return temp_matrix;
+}
+
+double Matrix::CalcCofactor(size_t i, size_t j) const {
+  Matrix temp_matrix = AssembleMinor(i, j);
+  return pow(-1, i+j) * temp_matrix.det();
 }
 
 }  // namespace prep
