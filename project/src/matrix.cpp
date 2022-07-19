@@ -10,7 +10,7 @@ Matrix::Matrix(size_t rows, size_t cols): rows_(rows), cols_(cols), matrix_ptr_(
 }
 
 Matrix::Matrix(std::istream& is): rows_(0), cols_(0), matrix_ptr_(NULL) {
-	if (!is) 
+	if (!is)
     throw InvalidMatrixStream();
 
   is >> rows_ >> cols_;
@@ -38,7 +38,7 @@ Matrix& Matrix::operator=(const Matrix& rhs) {
   rows_ = rhs.rows_;
   // приравнивать ли матрицы разных размеров(с приведением типа прирав-моей матрицы к rhs матрице) ??
   cols_ =  rhs.cols_;
-  
+
   CreateEmptyMatrix(rows_, cols_);
   CopyMatrix(rhs);
   return *this;
@@ -139,8 +139,9 @@ Matrix operator*(double val, const Matrix& matrix) {
 std::ostream& operator<<(std::ostream& os, const Matrix& matrix) {
   os << matrix.rows_ << " " << matrix.cols_  << "\n";
   for (size_t i = 0; i < matrix.rows_; i++) {
-    for (size_t j = 0; j < matrix.cols_; j++) 
-      os << std::setprecision(std::numeric_limits<double>::max_digits10) << std::setw(30) << matrix.matrix_ptr_[i][j];
+    for (size_t j = 0; j < matrix.cols_; j++)
+      os << std::setprecision(std::numeric_limits<double>::max_digits10)
+        << std::setw(30) << matrix.matrix_ptr_[i][j];
     os << "\n";
   }
   return os;
@@ -160,16 +161,15 @@ double Matrix::det() const {
   if (rows_ != cols_)
     throw DimensionMismatch(*this);
 
-  //todo: функция для оптимального выбора строки, по которой выч-ть опре-ль
+  //  todo: функция для оптимального выбора строки, по которой выч-ть опре-ль
   // те строка с самым большим числом нулей
 
   double deter = 0;
   for (size_t i = 0; i < cols_; i++) {
     if (rows_ == 1)
       return matrix_ptr_[1][i];
-    else {
+    else
       deter+= matrix_ptr_[1][i] * CalcCofactor(1, i);
-    }
   }
   return deter;
 }
@@ -177,7 +177,7 @@ double Matrix::det() const {
 Matrix Matrix::adj() const {
   if (rows_ != cols_)
     throw DimensionMismatch(*this);
-  
+
   Matrix temp_matrix(rows_, cols_);
   for (size_t i = 0; i < temp_matrix.rows_; i++) {
     for (size_t j = 0; j < temp_matrix.cols_; j++)
@@ -189,7 +189,7 @@ Matrix Matrix::adj() const {
 Matrix Matrix::inv() const {
   if (rows_ != cols_)
     throw DimensionMismatch(*this);
-    
+
   double deter = det();
   if (deter == 0) {
     SingularMatrix sing_matr;
