@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iomanip>
 
 #include "matrix.h"
 #include "exceptions.h"
@@ -9,8 +10,8 @@ Matrix::Matrix(size_t rows, size_t cols): rows_(rows), cols_(cols), matrix_ptr_(
 }
 
 Matrix::Matrix(std::istream& is): rows_(0), cols_(0), matrix_ptr_(NULL) {
-  if (!is)
-    InvalidMatrixStream invalid_matrix_stream;
+	if (!is) 
+    throw InvalidMatrixStream();
 
   is >> rows_ >> cols_;
   CreateEmptyMatrix(rows_, cols_);
@@ -18,6 +19,9 @@ Matrix::Matrix(std::istream& is): rows_(0), cols_(0), matrix_ptr_(NULL) {
     for (size_t j = 0; j < cols_; j++)
       is >> matrix_ptr_[i][j];
   }
+
+	if (is.fail())
+		throw InvalidMatrixStream();
 }
 
 Matrix::Matrix(const Matrix& rhs): rows_(rhs.rows_), cols_(rhs.cols_), matrix_ptr_(NULL) {
@@ -55,28 +59,22 @@ size_t Matrix::getCols() const {
 }
 
 double Matrix::operator()(size_t i, size_t j) const {
-  if (i > rows_ || j > cols_) {
-    OutOfRange *out_of_range = new OutOfRange(i, j, *this);
-    delete out_of_range;
-    // OutOfRange out_of_range(i, j, *this);
-  }
+  if (i == rows_ || j == cols_)
+    throw OutOfRange(i, j, *this);
   return matrix_ptr_[i][j];
 }
 
 double& Matrix::operator()(size_t i, size_t j) {
-  if (i > rows_ || j > cols_) {
-    OutOfRange *out_of_range = new OutOfRange(i, j, *this);
-    delete out_of_range;
-  }
+  if (i == rows_ || j == cols_)
+    throw OutOfRange(i, j, *this);
+
   double& value = matrix_ptr_[i][j];  // при выходе из скопа value стирается, по идее
   return value;
 }
 
 bool Matrix::operator==(const Matrix& rhs) const {
-  if (rows_ != rhs.rows_ || cols_ != rhs.cols_) {
-    DimensionMismatch *dimension_mismatch = new DimensionMismatch(*this, rhs);
-    delete dimension_mismatch;
-  }
+  if (rows_ != rhs.rows_ || cols_ != rhs.cols_)
+    throw DimensionMismatch(*this, rhs);
 
   for (size_t i = 0; i < rows_; i++) {
     for (size_t j = 0; j < cols_; j++) {
@@ -110,16 +108,15 @@ Matrix Matrix::operator-(const Matrix& rhs) const {
 }
 
 Matrix Matrix::operator*(const Matrix& rhs) const {
-  if (cols_ != rhs.rows_) {
-    DimensionMismatch *dimension_mismatch = new DimensionMismatch(*this, rhs);
-    delete dimension_mismatch;
-  }
+  if (cols_ != rhs.rows_)
+    throw DimensionMismatch(*this, rhs);
 
   Matrix temp_matrix(rows_, rhs.cols_);
   for (size_t i = 0; i < rows_; i++) {
     for (size_t j = 0; j < rhs.cols_; j++) {
-      for (size_t k = 0; k < cols_; k++)
+      for (size_t k = 0; k < cols_; k++) {
         temp_matrix.matrix_ptr_[i][j] += matrix_ptr_[i][k] * rhs.matrix_ptr_[k][j];
+			}
     }
   }
   return temp_matrix;
@@ -140,10 +137,11 @@ Matrix operator*(double val, const Matrix& matrix) {
 }
 
 std::ostream& operator<<(std::ostream& os, const Matrix& matrix) {
-  os << matrix.rows_ << matrix.cols_;
+  os << matrix.rows_ << " " << matrix.cols_  << "\n";
   for (size_t i = 0; i < matrix.rows_; i++) {
-    for (size_t j = 0; j < matrix.cols_; j++)
-      os << matrix.matrix_ptr_[i][j];
+    for (size_t j = 0; j < matrix.cols_; j++) 
+      os << std::setprecision(std::numeric_limits<double>::max_digits10) << std::setw(30) << matrix.matrix_ptr_[i][j];
+    os << "\n";
   }
   return os;
 }
@@ -159,10 +157,8 @@ Matrix Matrix::transp() const {
 }
 
 double Matrix::det() const {
-  if (rows_ != cols_) {
-    DimensionMismatch *dimension_mismatch = new DimensionMismatch(*this);
-    delete dimension_mismatch;
-  }
+  if (rows_ != cols_)
+    throw DimensionMismatch(*this);
 
   //todo: функция для оптимального выбора строки, по которой выч-ть опре-ль
   // те строка с самым большим числом нулей
@@ -179,10 +175,8 @@ double Matrix::det() const {
 }
 
 Matrix Matrix::adj() const {
-  if (rows_ != cols_) {
-    DimensionMismatch *dimension_mismatch = new DimensionMismatch(*this);
-    delete dimension_mismatch;
-  }
+  if (rows_ != cols_)
+    throw DimensionMismatch(*this);
   
   Matrix temp_matrix(rows_, cols_);
   for (size_t i = 0; i < temp_matrix.rows_; i++) {
@@ -193,10 +187,9 @@ Matrix Matrix::adj() const {
 }
 
 Matrix Matrix::inv() const {
-  if (rows_ != cols_) {
-    DimensionMismatch *dimension_mismatch = new DimensionMismatch(*this);
-    delete dimension_mismatch;
-  }
+  if (rows_ != cols_)
+    throw DimensionMismatch(*this);
+    
   double deter = det();
   if (deter == 0) {
     SingularMatrix sing_matr;
