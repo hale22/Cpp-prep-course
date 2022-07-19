@@ -73,9 +73,6 @@ double& Matrix::operator()(size_t i, size_t j) {
 }
 
 bool Matrix::operator==(const Matrix& rhs) const {
-  if (rows_ != rhs.rows_ || cols_ != rhs.cols_)
-    throw DimensionMismatch(*this, rhs);
-
   for (size_t i = 0; i < rows_; i++) {
     for (size_t j = 0; j < cols_; j++) {
       if (!CompareDouble(matrix_ptr_[i][j], rhs.matrix_ptr_[i][j]))
