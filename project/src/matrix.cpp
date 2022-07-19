@@ -20,8 +20,10 @@ Matrix::Matrix(std::istream& is): rows_(0), cols_(0), matrix_ptr_(NULL) {
       is >> matrix_ptr_[i][j];
   }
 
-	if (is.fail())
+	if (is.fail()) {
+    ClearMatrixBody(rows_);
 		throw InvalidMatrixStream();
+  }
 }
 
 Matrix::Matrix(const Matrix& rhs): rows_(rhs.rows_), cols_(rhs.cols_), matrix_ptr_(NULL) {
