@@ -73,7 +73,7 @@ double& Matrix::operator()(size_t i, size_t j) {
 }
 
 bool Matrix::operator==(const Matrix& rhs) const {
-  gitfor (size_t i = 0; i < rows_; i++) {
+  for (size_t i = 0; i < rows_; i++) {
     for (size_t j = 0; j < cols_; j++) {
       if (!CompareDouble(matrix_ptr_[i][j], rhs.matrix_ptr_[i][j]))
         return false;
@@ -111,6 +111,7 @@ Matrix Matrix::operator*(const Matrix& rhs) const {
   Matrix temp_matrix(rows_, rhs.cols_);
   for (size_t i = 0; i < rows_; i++) {
     for (size_t j = 0; j < rhs.cols_; j++) {
+      temp_matrix.matrix_ptr_[i][j] = 0;
       for (size_t k = 0; k < cols_; k++) {
         temp_matrix.matrix_ptr_[i][j] += matrix_ptr_[i][k] * rhs.matrix_ptr_[k][j];
 			}
