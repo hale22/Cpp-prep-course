@@ -87,10 +87,8 @@ bool Matrix::operator!=(const Matrix& rhs) const {
 }
 
 Matrix Matrix::operator+(const Matrix& rhs) const {
-  if (rows_ != rhs.rows_ || cols_ != rhs.cols_) {
-    DimensionMismatch *dimension_mismatch = new DimensionMismatch(*this, rhs);
-    delete dimension_mismatch;
-  }
+  if (rows_ != rhs.rows_ || cols_ != rhs.cols_)
+    throw DimensionMismatch(*this, rhs);
   Matrix temp_matrix(rows_, cols_);
 
   for (size_t i = 0; i < rows_; i++) {
