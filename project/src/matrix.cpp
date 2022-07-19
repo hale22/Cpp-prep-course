@@ -34,9 +34,10 @@ Matrix& Matrix::operator=(const Matrix& rhs) {
   if (this == &rhs)   // защита от самоприсваивания(self assignment)
     return *this;
 
+  ClearMatrixBody(rows_);
+
   // надо ли делать проверку "существует ли объект, явл-щийся lvalue"
   rows_ = rhs.rows_;
-  // приравнивать ли матрицы разных размеров(с приведением типа прирав-моей матрицы к rhs матрице) ??
   cols_ =  rhs.cols_;
 
   CreateEmptyMatrix(rows_, cols_);
@@ -45,9 +46,7 @@ Matrix& Matrix::operator=(const Matrix& rhs) {
 }
 
 Matrix::~Matrix() {
-  for (size_t count = 0; count < rows_; count++)
-    delete [] matrix_ptr_[count];
-  delete [] matrix_ptr_;
+  ClearMatrixBody(rows_);
 }
 
 size_t Matrix::getRows() const {
@@ -198,6 +197,13 @@ bool Matrix::CreateEmptyMatrix(size_t rows, size_t cols) {
   matrix_ptr_ = new double* [rows];
   for (size_t count = 0; count < rows; count++)
     matrix_ptr_[count] = new double[cols];
+  return true;
+}
+
+bool Matrix::ClearMatrixBody(size_t rows) const {
+  for (size_t count = 0; count < rows; count++)
+    delete [] matrix_ptr_[count];
+  delete [] matrix_ptr_;
   return true;
 }
 
