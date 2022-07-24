@@ -162,11 +162,10 @@ double Matrix::det() const {
   // те строка с самым большим числом нулей
 
   double deter = 0;
+  if (rows_ == 1)
+     return matrix_ptr_[0][0];
   for (size_t i = 0; i < cols_; i++) {
-    if (rows_ == 1)
-      return matrix_ptr_[1][i];
-    else
-      deter+= matrix_ptr_[1][i] * CalcCofactor(1, i);
+    deter+= matrix_ptr_[DETER_ROW_FOR_CALC][i] * CalcCofactor(DETER_ROW_FOR_CALC, i);
   }
   return deter;
 }
@@ -177,8 +176,10 @@ Matrix Matrix::adj() const {
 
   Matrix temp_matrix(rows_, cols_);
   for (size_t i = 0; i < temp_matrix.rows_; i++) {
-    for (size_t j = 0; j < temp_matrix.cols_; j++)
-      temp_matrix.matrix_ptr_[i][j] = CalcCofactor(i, j);
+    for (size_t j = 0; j < temp_matrix.cols_; j++) {
+      temp_matrix.matrix_ptr_[i][j] = 0;
+      temp_matrix.matrix_ptr_[i][j] = RoundDouble(CalcCofactor(i, j), ROUND_PRECISION);
+    }
   }
   return temp_matrix.transp();
 }
@@ -225,29 +226,40 @@ bool CompareDouble(const double first, const double second, const int precis) {
   return true;
 }
 
-Matrix Matrix::AssembleMinor(size_t k, size_t l) const {
+// ver 2.0
+Matrix Matrix::AssembleMinor(size_t m, size_t n) const {
+  size_t row_offset = 0;
+  size_t col_offset = 0;
   Matrix temp_matrix(rows_ - 1, cols_ - 1);
-  size_t m = 0;
-  size_t n = 0;
-  for (size_t i = 0; i < rows_; i++) {
-    for (size_t j = 0; j < cols_; j++) {
-      if (i != k && j != l) {
-        temp_matrix.matrix_ptr_[m][n] = matrix_ptr_[i][j];
-        if (n == temp_matrix.cols_) {
-          if (m == temp_matrix.rows_)
-            break;
-          n = 0;
-          m++;
-        }
-      }
+
+  for (size_t i = 0; i < rows_ - 1; i++) {
+    if ( i == m) 
+      row_offset = 1;
+
+    col_offset = 0;
+    for (size_t j = 0; j < cols_ - 1; j++) {
+      if (j == n) 
+        col_offset = 1;
+      temp_matrix.matrix_ptr_[i][j] = matrix_ptr_[i + row_offset][j + col_offset];
     }
   }
+
   return temp_matrix;
 }
 
 double Matrix::CalcCofactor(size_t i, size_t j) const {
   Matrix temp_matrix = AssembleMinor(i, j);
-  return pow(-1, i+j) * temp_matrix.det();
+  int degree = 0;
+
+  if (( (i + j) % 2 ) == 0 ) 
+    degree = 1;
+  else
+    degree = -1;
+
+  return degree * temp_matrix.det();
 }
 
+double RoundDouble(double value, int precis) {
+  return std::floor(value * powerOfTen[precis] + 0.5) / powerOfTen[precis];
+}
 }  // namespace prep

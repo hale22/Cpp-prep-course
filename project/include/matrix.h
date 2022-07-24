@@ -5,7 +5,12 @@
 #include <vector>
 #include <istream>
 
-#define CONST_COMPARE_PRECISION 7
+#define COMPARE_PRECISION 7
+#define ROUND_PRECISION 7
+#define DETER_ROW_FOR_CALC 0
+
+static const double powerOfTen[] = { 1.0, 10.0, 100.0, 1000.0, 10000.0, 
+100000.0, 1000000.0, 10000000.0, 100000000.0};
 
 namespace prep {
 class Matrix {
@@ -53,7 +58,8 @@ class Matrix {
   double CalcCofactor(size_t i, size_t j) const;
 };
 
-bool CompareDouble(const double first, const double second, const int precis = CONST_COMPARE_PRECISION);
+bool CompareDouble(const double first, const double second, const int precis = COMPARE_PRECISION);
+double RoundDouble(double value, int precis);
 
 Matrix operator*(double val, const Matrix& matrix);
 std::ostream& operator<<(std::ostream& os, const Matrix& matrix);
