@@ -178,7 +178,7 @@ Matrix Matrix::adj() const {
   for (size_t i = 0; i < temp_matrix.rows_; i++) {
     for (size_t j = 0; j < temp_matrix.cols_; j++) {
       temp_matrix.matrix_ptr_[i][j] = 0;
-      temp_matrix.matrix_ptr_[i][j] = RoundDouble(CalcCofactor(i, j), ROUND_PRECISION);
+      temp_matrix.matrix_ptr_[i][j] = CalcCofactor(i, j);
     }
   }
   return temp_matrix.transp();
@@ -221,9 +221,10 @@ bool Matrix::CopyMatrix(const Matrix& prev_matrix) {
 }
 
 bool CompareDouble(const double first, const double second, const int precis) {
-  if (std::abs(first - second) >= (precis*std::numeric_limits<double>::epsilon()))
-    return false;
-  return true;
+  /*if (std::abs(first - second) >= (precis*std::numeric_limits<double>::epsilon()))
+    return false;*/
+  return std::fabs(first - second) <= std::numeric_limits<double>::epsilon() * std::fabs(first + second) * precis
+        || std::fabs(first - second) < std::numeric_limits<double>::min();
 }
 
 // ver 2.0
@@ -250,16 +251,7 @@ Matrix Matrix::AssembleMinor(size_t m, size_t n) const {
 double Matrix::CalcCofactor(size_t i, size_t j) const {
   Matrix temp_matrix = AssembleMinor(i, j);
   int degree = 0;
-
-  if (( (i + j) % 2 ) == 0 ) 
-    degree = 1;
-  else
-    degree = -1;
-
+  (((i + j) % 2 ) == 0) ? degree = 1 : degree = -1;
   return degree * temp_matrix.det();
-}
-
-double RoundDouble(double value, int precis) {
-  return std::floor(value * powerOfTen[precis] + 0.5) / powerOfTen[precis];
 }
 }  // namespace prep
