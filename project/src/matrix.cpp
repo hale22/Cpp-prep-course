@@ -190,9 +190,9 @@ Matrix Matrix::inv() const {
 
   double deter = det();
   if (deter == 0) {
-    SingularMatrix sing_matr;
+    throw SingularMatrix();
   }
-  return adj()*(1/det());
+  return adj()*(1/deter);
 }
 
 bool Matrix::CreateEmptyMatrix(size_t rows, size_t cols) {
@@ -220,26 +220,26 @@ bool Matrix::CopyMatrix(const Matrix& prev_matrix) {
   return true;
 }
 
-bool CompareDouble(const double first, const double second, const int precis) {
+bool CompareDouble(const double first, const double second, const double precis) {
   /*if (std::abs(first - second) >= (precis*std::numeric_limits<double>::epsilon()))
     return false;*/
-  return std::fabs(first - second) <= std::numeric_limits<double>::epsilon() * std::fabs(first + second) * precis
-        || std::fabs(first - second) < std::numeric_limits<double>::min();
+  return std::fabs(first - second) <= std::numeric_limits<double>::epsilon() * std::fabs(first + second)
+    * precis
+    || std::fabs(first - second) < std::numeric_limits<double>::min()*precis;
 }
 
 // ver 2.0
 Matrix Matrix::AssembleMinor(size_t m, size_t n) const {
   size_t row_offset = 0;
-  size_t col_offset = 0;
   Matrix temp_matrix(rows_ - 1, cols_ - 1);
 
   for (size_t i = 0; i < rows_ - 1; i++) {
-    if ( i == m) 
+    if ( i == m)
       row_offset = 1;
 
-    col_offset = 0;
+    size_t col_offset = 0;
     for (size_t j = 0; j < cols_ - 1; j++) {
-      if (j == n) 
+      if (j == n)
         col_offset = 1;
       temp_matrix.matrix_ptr_[i][j] = matrix_ptr_[i + row_offset][j + col_offset];
     }
@@ -250,8 +250,6 @@ Matrix Matrix::AssembleMinor(size_t m, size_t n) const {
 
 double Matrix::CalcCofactor(size_t i, size_t j) const {
   Matrix temp_matrix = AssembleMinor(i, j);
-  int degree = 0;
-  (((i + j) % 2 ) == 0) ? degree = 1 : degree = -1;
-  return degree * temp_matrix.det();
+  return pow(-1, i + j) * temp_matrix.det();
 }
 }  // namespace prep

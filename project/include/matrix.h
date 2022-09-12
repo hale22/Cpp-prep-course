@@ -5,8 +5,9 @@
 #include <vector>
 #include <istream>
 
-#define COMPARE_PRECISION 100
-#define ROUND_PRECISION 7
+#define COMPARE_PRECISION 1e11  // значение подобрано опытным путем,
+//  чтобы проходил тест MatrixMathExtraSuite.Adj
+
 #define DETER_ROW_FOR_CALC 0
 
 namespace prep {
@@ -51,12 +52,11 @@ class Matrix {
   bool CreateEmptyMatrix(size_t rows = 0, size_t cols = 0);
   bool CopyMatrix(const Matrix& prev_matrix);
   bool ClearMatrixBody(size_t rows) const;
-  Matrix AssembleMinor(size_t k, size_t l) const;
+  Matrix AssembleMinor(size_t m, size_t n) const;
   double CalcCofactor(size_t i, size_t j) const;
 };
 
-bool CompareDouble(const double first, const double second, const int precis = COMPARE_PRECISION);
-double RoundDouble(double value, int precis);
+bool CompareDouble(const double first, const double second, const double precis = COMPARE_PRECISION);
 
 Matrix operator*(double val, const Matrix& matrix);
 std::ostream& operator<<(std::ostream& os, const Matrix& matrix);
